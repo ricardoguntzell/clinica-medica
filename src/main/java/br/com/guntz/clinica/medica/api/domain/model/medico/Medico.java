@@ -2,13 +2,12 @@ package br.com.guntz.clinica.medica.api.domain.model.medico;
 
 import br.com.guntz.clinica.medica.api.domain.model.endereco.Endereco;
 import br.com.guntz.clinica.medica.api.model.input.MedicoInputModel;
+import br.com.guntz.clinica.medica.api.model.input.MedicoResumoInputModel;
 import jakarta.persistence.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.beans.BeanUtils;
 
+@ToString
 @EqualsAndHashCode(of = "id")
 @Getter
 @Setter
@@ -36,6 +35,9 @@ public class Medico {
 
     public Medico(MedicoInputModel medicoInputModel) {
         BeanUtils.copyProperties(medicoInputModel, this);
-//        setEndereco(medicoInputModel.endereco());
+    }
+
+    public void atualizar(MedicoResumoInputModel medicoResumoInputModel) {
+        BeanUtils.copyProperties(medicoResumoInputModel, this);
     }
 }
