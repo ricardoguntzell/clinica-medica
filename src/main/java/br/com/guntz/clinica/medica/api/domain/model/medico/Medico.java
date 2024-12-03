@@ -40,10 +40,20 @@ public class Medico {
     }
 
     public void atualizar(MedicoResumoInputModel medicoResumoInputModel) {
-        BeanUtils.copyProperties(medicoResumoInputModel, this);
+        if (medicoResumoInputModel.nome() != null){
+            setNome(medicoResumoInputModel.nome());
+        }
+
+        if (medicoResumoInputModel.telefone() != null){
+            setTelefone(medicoResumoInputModel.telefone());
+        }
     }
 
-    public void excluir() {
+    public void inativar() {
         setAtivo(0);
+    }
+
+    public void ativar() {
+        setAtivo(1);
     }
 }
