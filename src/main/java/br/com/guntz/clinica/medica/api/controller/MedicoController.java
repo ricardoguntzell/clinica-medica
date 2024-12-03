@@ -12,7 +12,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
@@ -24,7 +23,7 @@ public class MedicoController {
 
     @GetMapping
     public Page<MedicoResumoModel> listarTodos(@PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
-        return medicoRepository.findAll(paginacao)
+        return medicoRepository.findAllByAtivoTrue(paginacao)
                 .map(MedicoResumoModel::new);
     }
 
@@ -44,6 +43,15 @@ public class MedicoController {
 
         medicoEntrada.setId(medicoId);
         medicoEntrada.atualizar(medicoResumoInputModel);
+    }
+
+    @Transactional
+    @DeleteMapping("/{medicoId}")
+    public void deleter(@PathVariable Long medicoId){
+        var medico = medicoRepository.findById(medicoId)
+                .orElseThrow(() -> new RuntimeException("Id não localizado"));
+
+        medico.excluir();
     }
 
 }
