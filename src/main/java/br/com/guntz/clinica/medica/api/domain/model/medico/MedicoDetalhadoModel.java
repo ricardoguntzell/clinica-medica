@@ -1,8 +1,6 @@
-package br.com.guntz.clinica.medica.api.model.output;
+package br.com.guntz.clinica.medica.api.domain.model.medico;
 
 import br.com.guntz.clinica.medica.api.domain.model.endereco.Endereco;
-import br.com.guntz.clinica.medica.api.domain.model.medico.Especialidade;
-import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;

@@ -1,7 +1,4 @@
-package br.com.guntz.clinica.medica.api.model.output;
-
-import br.com.guntz.clinica.medica.api.domain.model.medico.Especialidade;
-import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
+package br.com.guntz.clinica.medica.api.domain.model.medico;
 
 public record MedicoResumoModel(Long id, String nome, String telefone, String email, String crm,
                                 Especialidade especialidade) {

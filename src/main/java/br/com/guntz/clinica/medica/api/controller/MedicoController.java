@@ -2,10 +2,10 @@ package br.com.guntz.clinica.medica.api.controller;
 
 import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
 import br.com.guntz.clinica.medica.api.domain.repository.MedicoRepository;
-import br.com.guntz.clinica.medica.api.model.input.MedicoInputModel;
-import br.com.guntz.clinica.medica.api.model.input.MedicoResumoInputModel;
-import br.com.guntz.clinica.medica.api.model.output.MedicoDetalhadoModel;
-import br.com.guntz.clinica.medica.api.model.output.MedicoResumoModel;
+import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoInputModel;
+import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoResumoInputModel;
+import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoDetalhadoModel;
+import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoResumoModel;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -34,10 +34,9 @@ public class MedicoController {
 
     @GetMapping("/{medicoId}")
     public ResponseEntity<MedicoDetalhadoModel> buscarPorId(@PathVariable Long medicoId) {
-        return medicoRepository.findById(medicoId)
-                .map(MedicoDetalhadoModel::new)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+        var medicoLocalizado = medicoRepository.getReferenceById(medicoId);
+
+        return ResponseEntity.ok(new MedicoDetalhadoModel(medicoLocalizado));
     }
 
     @PostMapping
@@ -58,8 +57,7 @@ public class MedicoController {
     @PutMapping("/{medicoId}")
     public ResponseEntity<MedicoResumoModel> atualizar(@PathVariable Long medicoId,
                                                        @RequestBody MedicoResumoInputModel medicoResumoInputModel) {
-        var medicoEntrada = medicoRepository.findById(medicoId)
-                .orElseThrow(() -> new RuntimeException("Id não localizado"));
+        var medicoEntrada = medicoRepository.getReferenceById(medicoId);
 
         medicoEntrada.setId(medicoId);
         medicoEntrada.atualizar(medicoResumoInputModel);
@@ -69,7 +67,7 @@ public class MedicoController {
 
     @Transactional
     @DeleteMapping("/{medicoId}")
-    public ResponseEntity deleter(@PathVariable Long medicoId) {
+    public ResponseEntity<Object> deleter(@PathVariable Long medicoId) {
         var medico = medicoRepository.findById(medicoId)
                 .orElseThrow(() -> new RuntimeException("Id não localizado"));
 

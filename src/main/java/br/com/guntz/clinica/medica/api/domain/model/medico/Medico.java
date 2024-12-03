@@ -1,8 +1,6 @@
 package br.com.guntz.clinica.medica.api.domain.model.medico;
 
 import br.com.guntz.clinica.medica.api.domain.model.endereco.Endereco;
-import br.com.guntz.clinica.medica.api.model.input.MedicoInputModel;
-import br.com.guntz.clinica.medica.api.model.input.MedicoResumoInputModel;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.beans.BeanUtils;
