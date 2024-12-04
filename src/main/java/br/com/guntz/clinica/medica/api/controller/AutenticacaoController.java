@@ -1,6 +1,9 @@
 package br.com.guntz.clinica.medica.api.controller;
 
-import br.com.guntz.clinica.medica.api.domain.model.usuario.AutenticacaoInputModel;
+import br.com.guntz.clinica.medica.api.domain.model.usuario.UsuarioInputModel;
+import br.com.guntz.clinica.medica.api.domain.model.token.TokenJWTModel;
+import br.com.guntz.clinica.medica.api.domain.model.usuario.Usuario;
+import br.com.guntz.clinica.medica.api.domain.service.TokenService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,15 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class AutenticacaoController {
 
     private AuthenticationManager authenticationManager;
+    private TokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<Object> realizarLogin(@Valid @RequestBody AutenticacaoInputModel autenticacaoInputModel) {
-        var autenticacaoToken = new UsernamePasswordAuthenticationToken(autenticacaoInputModel.usuario(),
-                autenticacaoInputModel.senha());
+    public ResponseEntity<Object> realizarLogin(@Valid @RequestBody UsuarioInputModel usuarioInputModel) {
+        var autenticacaoToken = new UsernamePasswordAuthenticationToken(usuarioInputModel.usuario(),
+                usuarioInputModel.senha());
 
         var autenticacao = authenticationManager.authenticate(autenticacaoToken);
+        var tokenJWT = tokenService.gerarToken((Usuario) autenticacao.getPrincipal());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new TokenJWTModel(tokenJWT));
     }
 
 }
