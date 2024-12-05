@@ -1,18 +1,13 @@
 package br.com.guntz.clinica.medica.api.controller;
 
-import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
+import br.com.guntz.clinica.medica.api.domain.model.medico.*;
 import br.com.guntz.clinica.medica.api.domain.repository.MedicoRepository;
-import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoInputModel;
-import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoResumoInputModel;
-import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoDetalhadoModel;
-import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoResumoModel;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -41,7 +36,6 @@ public class MedicoController {
 
     @PostMapping
     @Transactional
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<MedicoResumoModel> salvar(@Valid @RequestBody MedicoInputModel medicoInputModel,
                                                     UriComponentsBuilder uriBuilder) {
         var medicoEntrada = new Medico(medicoInputModel);
