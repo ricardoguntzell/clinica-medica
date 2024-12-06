@@ -53,7 +53,6 @@ public class MedicoController {
                                                        @RequestBody MedicoResumoInputModel medicoResumoInputModel) {
         var medicoEntrada = medicoRepository.getReferenceById(medicoId);
 
-        medicoEntrada.setId(medicoId);
         medicoEntrada.atualizar(medicoResumoInputModel);
 
         return ResponseEntity.ok(new MedicoResumoModel(medicoEntrada));

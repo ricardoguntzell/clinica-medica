@@ -1,8 +1,8 @@
 package br.com.guntz.clinica.medica.api.domain.model.paciente;
 
+import br.com.guntz.clinica.medica.api.domain.exception.NegocioException;
 import br.com.guntz.clinica.medica.api.domain.model.endereco.Endereco;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,22 +31,42 @@ public class Paciente {
 
     private Integer ativo = 0;
 
-    public Paciente(PacienteInputModel pacienteInputModel) {
-        BeanUtils.copyProperties(pacienteInputModel, this);
+    public Paciente(PacienteInputModel pacienteEntrada) {
+        BeanUtils.copyProperties(pacienteEntrada, this);
     }
 
+    public Paciente(PacienteResumoInputModel pacienteEntrada) {BeanUtils.copyProperties(pacienteEntrada, this);}
+
     public void ativar() {
-        if (estaInativo()) {
-            System.out.println("kiko");
-            setAtivo(1);
+        if (estaAtivo()) {
+            throw new NegocioException("Paciente já está ativo");
         }
+
+        setAtivo(1);
     }
 
     public boolean estaAtivo() {
-        return getAtivo().equals(1) ;
+        return getAtivo().equals(1);
     }
 
     public boolean estaInativo() {
-        return !estaAtivo() ;
+        return !estaAtivo();
+    }
+
+    public void inativar() {
+        if (estaInativo()) {
+            throw new NegocioException("Paciente já está inativo");
+        }
+        setAtivo(0);
+    }
+
+    public void atualizar(PacienteResumoInputModel pacienteEntradaAtualizacao) {
+        if (pacienteEntradaAtualizacao.nome() != null){
+            setNome(pacienteEntradaAtualizacao.nome());
+        }
+
+        if (pacienteEntradaAtualizacao.endereco() != null){
+            setEndereco(pacienteEntradaAtualizacao.endereco());
+        }
     }
 }
