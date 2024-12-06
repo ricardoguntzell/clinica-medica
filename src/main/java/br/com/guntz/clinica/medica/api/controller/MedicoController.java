@@ -2,6 +2,7 @@ package br.com.guntz.clinica.medica.api.controller;
 
 import br.com.guntz.clinica.medica.api.domain.model.medico.*;
 import br.com.guntz.clinica.medica.api.domain.repository.MedicoRepository;
+import br.com.guntz.clinica.medica.api.domain.service.MedicoService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -18,9 +19,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class MedicoController {
 
     private MedicoRepository medicoRepository;
+    private MedicoService medicoService;
 
     @GetMapping
-    public ResponseEntity<Page<MedicoResumoModel>> listarTodos(@PageableDefault(size = 5, sort = {"nome"}) Pageable paginacao) {
+    public ResponseEntity<Page<MedicoResumoModel>> listarTodos(@PageableDefault(size = 5, sort = {"nome"})
+                                                               Pageable paginacao) {
         var page = medicoRepository.findAllByAtivoTrue(paginacao)
                 .map(MedicoResumoModel::new);
 
@@ -38,9 +41,7 @@ public class MedicoController {
     @Transactional
     public ResponseEntity<MedicoResumoModel> salvar(@Valid @RequestBody MedicoInputModel medicoInputModel,
                                                     UriComponentsBuilder uriBuilder) {
-        var medicoEntrada = new Medico(medicoInputModel);
-        medicoEntrada.ativar();
-        var medicoSalvo = medicoRepository.save(medicoEntrada);
+        var medicoSalvo = medicoService.salvar(new Medico(medicoInputModel));
 
         var uri = uriBuilder.path("/api/medicos/{id}").buildAndExpand(medicoSalvo.getId()).toUri();
 
@@ -50,23 +51,22 @@ public class MedicoController {
     @Transactional
     @PutMapping("/{medicoId}")
     public ResponseEntity<MedicoResumoModel> atualizar(@PathVariable Long medicoId,
-                                                       @RequestBody MedicoResumoInputModel medicoResumoInputModel) {
-        var medicoEntrada = medicoRepository.getReferenceById(medicoId);
+                                                       @Valid @RequestBody MedicoResumoInputModel medicoAtualizado) {
 
-        medicoEntrada.atualizar(medicoResumoInputModel);
+        var medico = medicoRepository.getReferenceById(medicoId);
 
-        return ResponseEntity.ok(new MedicoResumoModel(medicoEntrada));
+        medicoService.atualizar(medico, medicoAtualizado);
+
+        return ResponseEntity.ok(new MedicoResumoModel(medico));
     }
 
     @Transactional
     @DeleteMapping("/{medicoId}")
-    public ResponseEntity<Object> deleter(@PathVariable Long medicoId) {
-        var medico = medicoRepository.findById(medicoId)
-                .orElseThrow(() -> new RuntimeException("Id não localizado"));
+    public ResponseEntity<Object> inativar(@PathVariable Long medicoId) {
+        var medico = medicoRepository.getReferenceById(medicoId);
 
-        medico.inativar();
+        medicoService.inativar(medico);
 
         return ResponseEntity.noContent().build();
     }
-
 }

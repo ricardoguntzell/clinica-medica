@@ -10,4 +10,8 @@ import org.springframework.stereotype.Repository;
 public interface MedicoRepository extends JpaRepository<Medico, Long> {
 
     Page<Medico> findAllByAtivoTrue(Pageable paginacao);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByCrm(String crm);
 }

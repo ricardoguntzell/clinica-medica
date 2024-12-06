@@ -25,7 +25,7 @@ public class PacienteController {
 
     @GetMapping
     public ResponseEntity<List<PacienteModel>> listarTodos() {
-        var pacientes = pacienteRepository.findAll().stream()
+        var pacientes = pacienteRepository.findAllByAtivoTrue().stream()
                 .map(PacienteModel::new)
                 .toList();
 
@@ -44,7 +44,7 @@ public class PacienteController {
     public ResponseEntity<PacienteModel> salvar(@Valid @RequestBody PacienteInputModel pacienteInputModel,
                                                 UriComponentsBuilder uriBuilder) {
         var novoPaciente = new Paciente(pacienteInputModel);
-        var pacienteSalvo = pacienteRepository.save(novoPaciente);
+        var pacienteSalvo = pacienteService.salvar(novoPaciente);
 
         var uri = uriBuilder.path("/api/pacientes/{pacienteId}").buildAndExpand(pacienteSalvo.getId()).toUri();
 

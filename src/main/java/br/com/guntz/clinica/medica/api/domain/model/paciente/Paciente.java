@@ -45,14 +45,6 @@ public class Paciente {
         setAtivo(1);
     }
 
-    public boolean estaAtivo() {
-        return getAtivo().equals(1);
-    }
-
-    public boolean estaInativo() {
-        return !estaAtivo();
-    }
-
     public void inativar() {
         if (estaInativo()) {
             throw new NegocioException("Paciente já está inativo");
@@ -60,13 +52,22 @@ public class Paciente {
         setAtivo(0);
     }
 
-    public void atualizar(PacienteResumoInputModel pacienteEntradaAtualizacao) {
-        if (pacienteEntradaAtualizacao.nome() != null){
-            setNome(pacienteEntradaAtualizacao.nome());
+    public void atualizar(PacienteResumoInputModel pacienteAtualizado) {
+        if (pacienteAtualizado.nome() != null && !pacienteAtualizado.nome().isEmpty() ){
+            setNome(pacienteAtualizado.nome());
         }
 
-        if (pacienteEntradaAtualizacao.endereco() != null){
-            setEndereco(pacienteEntradaAtualizacao.endereco());
+        if (pacienteAtualizado.endereco() != null){
+            setEndereco(pacienteAtualizado.endereco());
         }
     }
+
+    private boolean estaAtivo() {
+        return getAtivo().equals(1);
+    }
+
+    private boolean estaInativo() {
+        return !estaAtivo();
+    }
+
 }

@@ -7,14 +7,11 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record MedicoResumoInputModel(
-        @NotBlank
         String nome,
 
-        @NotBlank
         @Pattern(regexp = "\\d{10,11}")
         String telefone,
 
-        @NotNull
         @Valid
         Endereco endereco) {
 
