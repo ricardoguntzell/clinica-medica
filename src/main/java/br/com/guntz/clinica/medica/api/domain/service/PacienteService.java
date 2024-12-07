@@ -1,6 +1,7 @@
 package br.com.guntz.clinica.medica.api.domain.service;
 
 import br.com.guntz.clinica.medica.api.domain.exception.NegocioException;
+import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
 import br.com.guntz.clinica.medica.api.domain.model.paciente.Paciente;
 import br.com.guntz.clinica.medica.api.domain.model.paciente.PacienteResumoInputModel;
 import br.com.guntz.clinica.medica.api.domain.repository.PacienteRepository;
@@ -56,4 +57,8 @@ public class PacienteService {
         }
     }
 
+    public Paciente buscarPacienteAgendamento(Long pacienteId) {
+        return pacienteRepository.findById(pacienteId)
+                .orElseThrow(() -> new NegocioException("Paciente não localizado para o Id informado"));
+    }
 }

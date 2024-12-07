@@ -47,4 +47,9 @@ public class MedicoService {
     public void inativar(Medico medico) {
         medico.inativar();
     }
+
+    public Medico buscarMedicoAgendamento(Long medicoId) {
+        return medicoRepository.findById(medicoId)
+                .orElseThrow(() -> new NegocioException("Médico não localizado para o Id informado"));
+    }
 }
