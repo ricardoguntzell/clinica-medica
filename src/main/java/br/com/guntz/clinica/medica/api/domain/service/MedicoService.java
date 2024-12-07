@@ -1,12 +1,15 @@
 package br.com.guntz.clinica.medica.api.domain.service;
 
 import br.com.guntz.clinica.medica.api.domain.exception.NegocioException;
+import br.com.guntz.clinica.medica.api.domain.model.medico.Especialidade;
 import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
 import br.com.guntz.clinica.medica.api.domain.model.medico.MedicoResumoInputModel;
 import br.com.guntz.clinica.medica.api.domain.repository.MedicoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.OffsetDateTime;
 
 @AllArgsConstructor
 @Service
@@ -46,10 +49,5 @@ public class MedicoService {
 
     public void inativar(Medico medico) {
         medico.inativar();
-    }
-
-    public Medico buscarMedicoAgendamento(Long medicoId) {
-        return medicoRepository.findById(medicoId)
-                .orElseThrow(() -> new NegocioException("Médico não localizado para o Id informado"));
     }
 }
