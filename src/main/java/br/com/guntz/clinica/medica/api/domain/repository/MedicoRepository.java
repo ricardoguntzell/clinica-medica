@@ -22,13 +22,19 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
     boolean existsByCrm(String crm);
 
     @Query("""
-            SELECT m FROM Medico m
-            WHERE m.ativo = 1
-            AND (
-            m.especialidade = :especialidade
-            OR m.id = :idMedico
-            )
-            AND m.id NOT IN (SELECT c.medico.id FROM Consulta c WHERE c.data = :data)
+            SELECT
+                m
+            FROM
+                Medico m
+            WHERE
+                m.ativo = 1
+                    AND (m.especialidade = :especialidade OR m.id = :idMedico)
+                    AND m.id NOT IN (SELECT
+                        c.medico.id
+                    FROM
+                        Consulta c
+                    WHERE
+                        c.data = :data)
             ORDER BY RAND()
             LIMIT 1
             """)

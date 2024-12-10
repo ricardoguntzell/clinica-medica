@@ -18,8 +18,8 @@ public class ValidadorDataAgendamento {
             var localDateTime = LocalDateTime.parse(dataAgendamento,
                     DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH", new Locale("pt", "BR")));
 
-//            return OffsetDateTime.now().plusHours(20);
-            return OffsetDateTime.of(localDateTime, ZoneOffset.ofHours(-3));
+            return OffsetDateTime.now().plusHours(24);
+//            return OffsetDateTime.of(localDateTime, ZoneOffset.ofHours(-3));
 
             //ZondedDateTime
         } catch (Exception e) {
