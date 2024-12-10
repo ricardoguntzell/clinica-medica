@@ -3,7 +3,11 @@ CREATE TABLE consulta (
 
 	medico_id BIGINT NOT NULL,
     paciente_id BIGINT NOT NULL,
-    data TIMESTAMP NOT NULL,
+    data DATETIME NOT NULL,
+
+    ativo TINYINT NOT NULL,
+    motivo_cancelamento VARCHAR(255) NULL,
+    data_cancelamento DATETIME NULL,
 
     PRIMARY KEY (id),
 

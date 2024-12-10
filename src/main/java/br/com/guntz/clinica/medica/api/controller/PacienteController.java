@@ -6,6 +6,7 @@ import br.com.guntz.clinica.medica.api.domain.model.paciente.PacienteModel;
 import br.com.guntz.clinica.medica.api.domain.model.paciente.PacienteResumoInputModel;
 import br.com.guntz.clinica.medica.api.domain.repository.PacienteRepository;
 import br.com.guntz.clinica.medica.api.domain.service.PacienteService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearer-key")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/pacientes")

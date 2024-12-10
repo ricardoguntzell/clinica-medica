@@ -8,7 +8,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
 import java.util.List;
 
 @AllArgsConstructor
@@ -21,15 +20,19 @@ public class ConsultaService {
     private List<ValidadorAgendamentoDeConsulta> validadores;
 
     @Transactional
-    public Consulta agendar(ConsultaAgendamentoInputModel dadosNovaConsulta) {
-        var paciente = pacienteAgendamentoService.buscarPacienteAgendamento(dadosNovaConsulta.idPaciente());
+    public Consulta agendar(ConsultaAgendamentoInputModel dadosConsultaEntrada) {
+        System.out.println(dadosConsultaEntrada.data());
 
-        var medico = medicoAgendamentoService.buscarMedicoAgendamento(dadosNovaConsulta.idMedico(),
-                dadosNovaConsulta.especialidade(), dadosNovaConsulta.data());
+        var paciente = pacienteAgendamentoService.buscarPacienteAgendamento(dadosConsultaEntrada.idPaciente());
+        var medico = medicoAgendamentoService.buscarMedicoAgendamento(dadosConsultaEntrada);
 
-        validadores.forEach(v -> v.validar(dadosNovaConsulta));
+        validadores.forEach(v -> v.validar(dadosConsultaEntrada));
 
-        var consulta = new Consulta(medico, paciente, dadosNovaConsulta.data());
+        var consulta = new Consulta(medico, paciente, dadosConsultaEntrada.data());
+        consulta.ativar();
+        
+        System.out.println(dadosConsultaEntrada.data());
+        System.out.println(consulta.getData());
 
         return consultaRepository.save(consulta);
     }

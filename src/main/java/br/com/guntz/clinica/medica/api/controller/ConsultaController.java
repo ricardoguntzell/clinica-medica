@@ -24,7 +24,11 @@ public class ConsultaController {
     public ResponseEntity<Object> agendar(@Valid @RequestBody ConsultaAgendamentoInputModel consultaAgendamento) {
         var consultaAgendada = consultaService.agendar(consultaAgendamento);
 
-        return ResponseEntity.ok(new ConsultaAgendamentoModel(consultaAgendada));
+        System.out.println(consultaAgendada.getData());
+        var consultaAgendamentoModel = new ConsultaAgendamentoModel(consultaAgendada);
+        System.out.println(consultaAgendamentoModel.data());
+
+        return ResponseEntity.ok(consultaAgendamentoModel);
     }
 
 }

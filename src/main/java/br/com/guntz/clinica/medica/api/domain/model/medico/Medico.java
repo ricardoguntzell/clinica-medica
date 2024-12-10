@@ -32,7 +32,7 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
-    private Integer ativo;
+    private Integer ativo = 0;
 
     public Medico(MedicoInputModel medicoInputModel) {
         BeanUtils.copyProperties(medicoInputModel, this);
