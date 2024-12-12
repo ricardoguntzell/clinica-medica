@@ -22,8 +22,6 @@ public class MedicoService {
         verificaCrmExistente(novoMedico.getCrm());
         verificaEmailExistente(novoMedico.getEmail());
 
-        novoMedico.ativar();
-
         return medicoRepository.save(novoMedico);
     }
 

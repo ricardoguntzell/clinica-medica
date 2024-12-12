@@ -27,7 +27,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
             FROM
                 Medico m
             WHERE
-                m.ativo = 1
+                m.ativo = true
                     AND (m.especialidade = :especialidade OR m.id = :idMedico)
                     AND m.id NOT IN (SELECT
                         c.medico.id

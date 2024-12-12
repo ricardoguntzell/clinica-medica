@@ -32,10 +32,11 @@ public class Medico {
     @Embedded
     private Endereco endereco;
 
-    private Integer ativo = 0;
+    private boolean ativo;
 
     public Medico(MedicoInputModel medicoInputModel) {
         BeanUtils.copyProperties(medicoInputModel, this);
+        ativar();
     }
 
     public void atualizar(MedicoResumoInputModel medicoAtualizado) {
@@ -52,18 +53,18 @@ public class Medico {
             throw new NegocioException("Médico já está ativo");
         }
 
-        setAtivo(1);
+        setAtivo(true);
     }
 
     public void inativar() {
         if (estaInativo()) {
             throw new NegocioException("Médico já está inativo");
         }
-        setAtivo(0);
+        setAtivo(false);
     }
 
     private boolean estaAtivo() {
-        return getAtivo().equals(1);
+        return isAtivo();
     }
 
     private boolean estaInativo() {

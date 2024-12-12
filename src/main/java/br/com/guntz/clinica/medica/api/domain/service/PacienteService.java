@@ -19,8 +19,6 @@ public class PacienteService {
         verificaEmailExistente(novoPaciente.getEmail());
         verificaCpfExistente(novoPaciente.getCpf());
 
-        novoPaciente.ativar();
-
         return pacienteRepository.save(novoPaciente);
     }
 

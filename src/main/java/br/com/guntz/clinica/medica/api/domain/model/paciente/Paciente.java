@@ -29,41 +29,44 @@ public class Paciente {
     @Embedded
     private Endereco endereco;
 
-    private Integer ativo = 0;
+    private boolean ativo;
 
     public Paciente(PacienteInputModel pacienteEntrada) {
         BeanUtils.copyProperties(pacienteEntrada, this);
     }
 
-    public Paciente(PacienteResumoInputModel pacienteEntrada) {BeanUtils.copyProperties(pacienteEntrada, this);}
+    public Paciente(PacienteResumoInputModel pacienteEntrada) {
+        BeanUtils.copyProperties(pacienteEntrada, this);
+        ativar();
+    }
 
     public void ativar() {
         if (estaAtivo()) {
             throw new NegocioException("Paciente já está ativo");
         }
 
-        setAtivo(1);
+        setAtivo(true);
     }
 
     public void inativar() {
         if (estaInativo()) {
             throw new NegocioException("Paciente já está inativo");
         }
-        setAtivo(0);
+        setAtivo(false);
     }
 
     public void atualizar(PacienteResumoInputModel pacienteAtualizado) {
-        if (pacienteAtualizado.nome() != null && !pacienteAtualizado.nome().isEmpty() ){
+        if (pacienteAtualizado.nome() != null && !pacienteAtualizado.nome().isEmpty()) {
             setNome(pacienteAtualizado.nome());
         }
 
-        if (pacienteAtualizado.endereco() != null){
+        if (pacienteAtualizado.endereco() != null) {
             setEndereco(pacienteAtualizado.endereco());
         }
     }
 
     private boolean estaAtivo() {
-        return getAtivo().equals(1);
+        return isAtivo();
     }
 
     private boolean estaInativo() {

@@ -15,8 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.time.DayOfWeek;
-import java.time.OffsetDateTime;
+import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,70 +32,90 @@ class MedicoRepositoryTest {
     private TestEntityManager testEntityManager;
 
     @Test
-    @DisplayName("Deveria devolver null quando unico medico cadastrado nao esta disponivel na data")
-    void escolherMedicoAleatorioLivreNaData() {
-        var proximaSegundaAs10 = OffsetDateTime.now()
+    @DisplayName("Deveria devolver vázio quando único médico cadastrado não esta disponível na data")
+    void escolherMedicoAleatorioLivreNaDataCenario1() {
+        //given ou arrange
+        var proximaSegundaAs10 = OffsetDateTime.of(getLocalDateTimeEscolherMedico(), ZoneOffset.ofHours(-3))
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
-        var medico = cadastrarMedico("Medico", "11955500000", "medico@clinica.com", "123456",
-                Especialidade.CARDIOLOGIA);
-        var paciente = cadastrarPaciente("Paciente", "paciente@email.com", "00000000000");
-
+        var medico = cadastrarMedico();
+        var paciente = cadastrarPaciente();
         cadastrarConsulta(medico, paciente, proximaSegundaAs10);
 
-        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(null, Especialidade.CARDIOLOGIA,
+        //when ou act
+        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(99999L, Especialidade.CARDIOLOGIA,
                 proximaSegundaAs10);
 
-        assertThat(medicoLivre).isNull();
+        //then ou assert
+        assertThat(medicoLivre).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Deveria devolver médico quando ele estiver disponível na data")
+    void escolherMedicoAleatorioLivreNaDataCenario2() {
+        var proximaSegundaAs10 = OffsetDateTime.of(getLocalDateTimeEscolherMedico(), ZoneOffset.ofHours(-3))
+                .with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+
+        var medico = cadastrarMedico();
+
+        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(99L, Especialidade.CARDIOLOGIA,
+                proximaSegundaAs10)
+                .orElse(null);
+
+        assertThat(medicoLivre).isEqualTo(medico);
+    }
+
+    private LocalDateTime getLocalDateTimeEscolherMedico() {
+        return LocalDateTime.of(Year.now().getValue(), Month.DECEMBER, DayOfWeek.MONDAY.getValue(), 16, 0);
     }
 
     private void cadastrarConsulta(Medico medico, Paciente paciente, OffsetDateTime data) {
         testEntityManager.persist(new Consulta(medico, paciente, data));
     }
 
-    private Medico cadastrarMedico(String nome, String telefone, String email, String crm, Especialidade especialidade) {
-        var medico = new Medico(dadosMedico(nome, telefone, email, crm, especialidade));
+    private Medico cadastrarMedico() {
+        var medico = new Medico(dadosMedico());
         testEntityManager.persist(medico);
 
         return medico;
     }
 
-    private Paciente cadastrarPaciente(String nome, String email, String cpf) {
-        var paciente = new Paciente(dadosPaciente(nome, email, cpf));
+    private Paciente cadastrarPaciente() {
+        var paciente = new Paciente(dadosPaciente());
         testEntityManager.persist(paciente);
 
         return paciente;
     }
 
-    private MedicoInputModel dadosMedico(String nome, String telefone, String email, String crm, Especialidade especialidade) {
+    private MedicoInputModel dadosMedico() {
         return new MedicoInputModel(
-                nome,
-                telefone,
-                email,
-                crm,
-                especialidade,
+                "Agatha Olivia Raquel",
+                "11988775566",
+                "medico@clinica-medica.guntz.com.br",
+                "423467",
+                Especialidade.CARDIOLOGIA,
                 dadosEndereco()
         );
     }
 
-    private PacienteInputModel dadosPaciente(String nome, String email, String cpf) {
+    private PacienteInputModel dadosPaciente() {
         return new PacienteInputModel(
-                nome,
-                email,
-                cpf,
+                "Regina Luna Eliane Nogueira",
+                "regina.nogueira@guntz.com.br",
+                "47750545034",
                 dadosEndereco()
         );
     }
 
     private Endereco dadosEndereco() {
         return new Endereco(
-                "rua xpto",
-                "bairro",
-                "00000000",
-                "Brasilia",
-                "DF",
-                null,
-                null
+                "Travessa Corália de Siqueira",
+                "São Cristóvão",
+                "56503441",
+                "Arcoverde",
+                "PE",
+                952,
+                "Perto da estação trianon"
         );
     }
 }

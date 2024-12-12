@@ -24,7 +24,7 @@ public class MedicoDetalhadoModel {
 
     private Endereco endereco;
 
-    private Integer ativo;
+    private boolean ativo;
 
     public MedicoDetalhadoModel(Medico medico) {
         BeanUtils.copyProperties(medico, this);
