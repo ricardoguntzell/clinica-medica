@@ -21,8 +21,6 @@ public class ConsultaService {
 
     @Transactional
     public Consulta agendar(ConsultaAgendamentoInputModel dadosConsultaEntrada) {
-        System.out.println(dadosConsultaEntrada.data());
-
         var paciente = pacienteAgendamentoService.buscarPacienteAgendamento(dadosConsultaEntrada.idPaciente());
         var medico = medicoAgendamentoService.buscarMedicoAgendamento(dadosConsultaEntrada);
 
@@ -31,9 +29,11 @@ public class ConsultaService {
         var consulta = new Consulta(medico, paciente, dadosConsultaEntrada.data());
         consulta.ativar();
         
-        System.out.println(dadosConsultaEntrada.data());
-        System.out.println(consulta.getData());
-
         return consultaRepository.save(consulta);
+    }
+
+    @Transactional
+    public void cancelar(Consulta consulta, String motivoCancelamento) {
+        consulta.cancelar(motivoCancelamento);
     }
 }

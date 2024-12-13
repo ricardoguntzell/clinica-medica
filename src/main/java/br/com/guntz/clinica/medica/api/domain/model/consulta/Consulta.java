@@ -41,19 +41,22 @@ public class Consulta {
         this.paciente = paciente;
         this.data = data;
     }
+
     public void ativar() {
         if (estaAtivo()) {
-            throw new NegocioException("Médico já está ativo");
+            throw new NegocioException("consulta já está ativa");
         }
 
         setAtivo(1);
     }
 
-    public void inativar() {
+    public void cancelar(String motivoCancelamento) {
         if (estaInativo()) {
-            throw new NegocioException("Médico já está inativo");
+            throw new NegocioException("consulta j[a foi cancelada");
         }
         setAtivo(0);
+        setMotivoCancelamento(motivoCancelamento);
+        setDataCancelamento(OffsetDateTime.now());
     }
 
     private boolean estaAtivo() {

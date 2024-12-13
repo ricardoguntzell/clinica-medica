@@ -13,16 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.ActiveProfiles;
 
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ActiveProfiles("test")
+@DataJpaTest
 class MedicoRepositoryTest {
 
     @Autowired
@@ -59,7 +57,7 @@ class MedicoRepositoryTest {
         var medico = cadastrarMedico();
 
         var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(99L, Especialidade.CARDIOLOGIA,
-                proximaSegundaAs10)
+                        proximaSegundaAs10)
                 .orElse(null);
 
         assertThat(medicoLivre).isEqualTo(medico);

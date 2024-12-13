@@ -1,0 +1,6 @@
+INSERT INTO medico (nome, telefone, email, crm, especialidade, cep, logradouro, numero, bairro, uf, cidade, ativo)
+VALUES('Joana Beatriz Moura', '86984860503', 'joana.beatriz@clinica-medica.guntz.com.br', '974577', 'CARDIOLOGIA', '64011040', 'Rua Vinte e Seis', 410, 'Santa Rosa', 'PI', 'Teresina', 1),
+('Alana Francisca Melo', '22991900936', 'alana.melo@clinica-medica.guntz.com.br', '828945', 'ORTOPEDIA', '24421660', 'Rua Astrogildo do Amaral', 50, 'Galo Branco', 'RJ', 'São Gonçalo', 1),
+('Raimundo Juan Davi Lima', '21993343510', 'raimundo.juan@clinica-medica.guntz.com.br', '738268', 'GINECOLOGIA', '23093600', 'Rua Domingos Machado', 810, 'Santíssimo', 'RJ', 'Rio de Janeiro', 1),
+('Danilo Matheus Farias', '11995301107', 'danilo.matheus@clinica-medica.guntz.com.br', '518198', 'DERMATOLOGIA', '06343110', 'Rua Santa Cruz', 25, 'Jardim Marabá', 'SP', 'Bauru', 1),
+('Lorena Maria Liz Rezende', '14983256683', 'lorena.maria@clinica-medica.guntz.com.br', '168312', 'DERMATOLOGIA', '13059173', 'Rua Elias de Souza Vieira', 555, 'Núcleo Residencial Parque da Amizade', 'SP', 'Campinas', 1);

@@ -20,8 +20,6 @@ public class ValidadorDataAgendamento {
 
 //            return OffsetDateTime.now().plusHours(24);
             return OffsetDateTime.of(localDateTime, ZoneOffset.ofHours(-3));
-
-            //ZondedDateTime
         } catch (Exception e) {
             throw new NegocioException("A data deve corresponder ao seguinte formato: yyyy-MM-dd'T'HH");
         }
