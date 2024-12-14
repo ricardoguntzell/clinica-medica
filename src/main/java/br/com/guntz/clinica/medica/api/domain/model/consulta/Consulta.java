@@ -1,7 +1,6 @@
 package br.com.guntz.clinica.medica.api.domain.model.consulta;
 
 import br.com.guntz.clinica.medica.api.domain.exception.NegocioException;
-import br.com.guntz.clinica.medica.api.domain.model.medico.Especialidade;
 import br.com.guntz.clinica.medica.api.domain.model.medico.Medico;
 import br.com.guntz.clinica.medica.api.domain.model.paciente.Paciente;
 import jakarta.persistence.*;
@@ -9,7 +8,6 @@ import lombok.*;
 
 import java.time.OffsetDateTime;
 
-@ToString
 @EqualsAndHashCode(of = "id")
 @Setter
 @Getter
@@ -52,7 +50,7 @@ public class Consulta {
 
     public void cancelar(String motivoCancelamento) {
         if (estaInativo()) {
-            throw new NegocioException("consulta j[a foi cancelada");
+            throw new NegocioException("consulta já foi cancelada");
         }
         setAtivo(0);
         setMotivoCancelamento(motivoCancelamento);

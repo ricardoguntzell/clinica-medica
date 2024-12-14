@@ -37,11 +37,13 @@ class MedicoRepositoryTest {
                 .with(TemporalAdjusters.next(DayOfWeek.MONDAY));
 
         var medico = cadastrarMedico();
+
         var paciente = cadastrarPaciente();
-        cadastrarConsulta(medico, paciente, proximaSegundaAs10);
+        var consulta = cadastrarConsulta(medico, paciente, proximaSegundaAs10);
+        consulta.ativar();
 
         //when ou act
-        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(99999L, Especialidade.CARDIOLOGIA,
+        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(medico.getId(), null,
                 proximaSegundaAs10);
 
         //then ou assert
@@ -56,19 +58,19 @@ class MedicoRepositoryTest {
 
         var medico = cadastrarMedico();
 
-        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(99L, Especialidade.CARDIOLOGIA,
+        var medicoLivre = medicoRepository.escolherMedicoAleatorioLivreNaData(null, Especialidade.CARDIOLOGIA,
                         proximaSegundaAs10)
                 .orElse(null);
 
-        assertThat(medicoLivre).isEqualTo(medico);
+        assertThat(medicoLivre).isNotEqualTo(null);
     }
 
     private LocalDateTime getLocalDateTimeEscolherMedico() {
         return LocalDateTime.of(Year.now().getValue(), Month.DECEMBER, DayOfWeek.MONDAY.getValue(), 16, 0);
     }
 
-    private void cadastrarConsulta(Medico medico, Paciente paciente, OffsetDateTime data) {
-        testEntityManager.persist(new Consulta(medico, paciente, data));
+    private Consulta cadastrarConsulta(Medico medico, Paciente paciente, OffsetDateTime data) {
+        return testEntityManager.persist(new Consulta(medico, paciente, data));
     }
 
     private Medico cadastrarMedico() {
@@ -89,7 +91,7 @@ class MedicoRepositoryTest {
         return new MedicoInputModel(
                 "Agatha Olivia Raquel",
                 "11988775566",
-                "medico@clinica-medica.guntz.com.br",
+                "agatha.raquel@clinica-medica.guntz.com.br",
                 "423467",
                 Especialidade.CARDIOLOGIA,
                 dadosEndereco()

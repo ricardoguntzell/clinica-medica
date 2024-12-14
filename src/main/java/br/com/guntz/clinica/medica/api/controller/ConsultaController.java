@@ -1,5 +1,6 @@
 package br.com.guntz.clinica.medica.api.controller;
 
+import br.com.guntz.clinica.medica.api.domain.model.consulta.ConsultaAgendamentoDetalhadoModel;
 import br.com.guntz.clinica.medica.api.domain.model.consulta.ConsultaAgendamentoInputModel;
 import br.com.guntz.clinica.medica.api.domain.model.consulta.ConsultaAgendamentoModel;
 import br.com.guntz.clinica.medica.api.domain.model.consulta.ConsultaCancelamentoInputModel;
@@ -17,23 +18,25 @@ import java.util.List;
 @RequestMapping("/api/consultas")
 public class ConsultaController {
 
-    private ConsultaRepository consultaRepository;
-    private ConsultaService consultaService;
+    private final ConsultaRepository consultaRepository;
 
-//    @GetMapping
-//    public ResponseEntity<List<ConsultaAgendamentoModel>> listarTodos() {
-//        var consultas = consultaRepository.findAllByAtivoTrue().stream()
-//                .map(ConsultaAgendamentoModel::new)
-//                .toList();
-//
-//        return ResponseEntity.ok(consultas);
-//    }
+    private final ConsultaService consultaService;
+
+    @GetMapping
+    public ResponseEntity<List<ConsultaAgendamentoModel>> listarTodos() {
+        var consultas = consultaRepository.findAllByAtivo(1)
+                .stream()
+                .map(ConsultaAgendamentoModel::new)
+                .toList();
+
+        return ResponseEntity.ok(consultas);
+    }
 
     @GetMapping("/{consultaId}")
-    public ResponseEntity<ConsultaAgendamentoModel> buscarPorId(@PathVariable Long consultaId) {
+    public ResponseEntity<ConsultaAgendamentoDetalhadoModel> buscarPorId(@PathVariable Long consultaId) {
         var consulta = consultaRepository.getReferenceById(consultaId);
 
-        return ResponseEntity.ok(new ConsultaAgendamentoModel(consulta));
+        return ResponseEntity.ok(new ConsultaAgendamentoDetalhadoModel(consulta));
     }
 
     @PostMapping
