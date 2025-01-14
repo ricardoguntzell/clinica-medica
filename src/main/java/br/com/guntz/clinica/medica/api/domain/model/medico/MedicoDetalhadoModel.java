@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 
 @Setter
 @Getter
-
 public class MedicoDetalhadoModel {
 
     private Long id;

@@ -3,6 +3,7 @@ package br.com.guntz.clinica.medica.api.controller;
 import br.com.guntz.clinica.medica.api.domain.model.medico.*;
 import br.com.guntz.clinica.medica.api.domain.repository.MedicoRepository;
 import br.com.guntz.clinica.medica.api.domain.service.MedicoService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+@SecurityRequirement(name = "bearer-key")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/medicos")

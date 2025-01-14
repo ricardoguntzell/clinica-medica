@@ -28,7 +28,7 @@ public class DocConfiguration {
                                 .name("Guntz")
                                 .email("rricardoguntzell@gmail.com"))
                         .license(new License()
-                                .name("Apache 2.0")
+                                .name("Guntz - Github")
                                 .url("https://github.com/ricardoguntzell/clinica-medica")));
     }
 }

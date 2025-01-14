@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
-    List<Consulta> findAllByAtivo(Integer ativo);
+    List<Consulta> findAllByAtivo(boolean ativo);
 }

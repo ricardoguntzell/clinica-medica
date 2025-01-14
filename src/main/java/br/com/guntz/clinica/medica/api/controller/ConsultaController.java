@@ -6,6 +6,7 @@ import br.com.guntz.clinica.medica.api.domain.model.consulta.ConsultaAgendamento
 import br.com.guntz.clinica.medica.api.domain.model.consulta.ConsultaCancelamentoInputModel;
 import br.com.guntz.clinica.medica.api.domain.repository.ConsultaRepository;
 import br.com.guntz.clinica.medica.api.domain.service.ConsultaService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@SecurityRequirement(name = "bearer-key")
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/consultas")
@@ -24,7 +26,7 @@ public class ConsultaController {
 
     @GetMapping
     public ResponseEntity<List<ConsultaAgendamentoModel>> listarTodos() {
-        var consultas = consultaRepository.findAllByAtivo(1)
+        var consultas = consultaRepository.findAllByAtivo(true)
                 .stream()
                 .map(ConsultaAgendamentoModel::new)
                 .toList();

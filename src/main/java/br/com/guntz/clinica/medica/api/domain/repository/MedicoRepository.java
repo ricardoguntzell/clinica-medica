@@ -36,7 +36,7 @@ public interface MedicoRepository extends JpaRepository<Medico, Long> {
                     WHERE
                         c.data = :data
                     AND
-                        c.ativo = 1)
+                        c.ativo = true)
             ORDER BY RAND()
             LIMIT 1
             """)

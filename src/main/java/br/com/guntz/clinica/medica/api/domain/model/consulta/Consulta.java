@@ -28,7 +28,7 @@ public class Consulta {
 
     private OffsetDateTime data;
 
-    private Integer ativo = 0;
+    private boolean ativo;
 
     private String motivoCancelamento;
 
@@ -45,20 +45,20 @@ public class Consulta {
             throw new NegocioException("consulta já está ativa");
         }
 
-        setAtivo(1);
+        setAtivo(true);
     }
 
     public void cancelar(String motivoCancelamento) {
         if (estaInativo()) {
             throw new NegocioException("consulta já foi cancelada");
         }
-        setAtivo(0);
+        setAtivo(false);
         setMotivoCancelamento(motivoCancelamento);
         setDataCancelamento(OffsetDateTime.now());
     }
 
     private boolean estaAtivo() {
-        return getAtivo().equals(1);
+        return isAtivo();
     }
 
     private boolean estaInativo() {
