@@ -1,0 +1,49 @@
+# name: Deploy clinica-medica
+#
+# on:
+#    push:
+#     branches: [main]
+
+# jobs: 
+#     build:
+#         runs-on: ubuntu-latest
+
+#         steps:
+#             - name: Checkout code
+#               uses: actions/checkout@v4
+
+#             - name: Fazendo configuracao do java
+#               uses: actions/setup-java@v3
+#               with:
+#                 java-version: '17'
+#                 distribution: 'temurin'
+
+#             - name: Fazendo  login no DockerHub
+#               env:
+#                 DOCKER_USER: ${{secrets.DOCKER_USER}}
+#                 DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+#               run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+
+#             - name: Criando .env file
+#               run: |
+#                 echo "RDS_HOSTNAME=${{ secrets.RDS_HOSTNAME }}" >> .env
+#                 echo "RDS_PORT=${{ secrets.RDS_PORT }}" >> .env
+#                 echo "RDS_USERNAME=${{ secrets.RDS_USERNAME }}" >> .env
+#                 echo "RDS_PASSWORD=${{ secrets.RDS_PASSWORD }}" >> .env
+#                 echo "spring.profiles.active=prod" >> .env
+
+#             - name: Instalando Docker
+#               run: |
+#                 sudo apt-get update
+#                 sudo apt-get install docker-ce docker-ce-cli containerd.io -y
+
+#             - name: Instalando Docker Compose
+#               run: sudo apt-get install docker-compose -y
+
+#             - name: Construindo imagem
+#               run: docker-compose build
+
+#             - name: Push Docker image
+#               run: |
+#                 docker tag ${{secrets.DOCKER_USER}}/pessoa-api:latest ${{secrets.DOCKER_USER}}/pessoa-api:latest
+#                 docker push ${{secrets.DOCKER_USER}}/pessoa-api:latest

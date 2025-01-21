@@ -1,0 +1,47 @@
+version: '3.5'
+services:
+  api:
+    container_name: clinica-medica-api
+    image: guntzbr/clinica-medica-api
+    environment:
+      DB_URL: ${DB_URL}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      APP_PROFILE: ${APP_PROFILE}
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - clinica-medica-network
+  db:
+    container_name: clinica-medica-db
+    image: mysql:8.0.33
+    command: mysqld --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+        MYSQL_DATABASE: ${MYSQL_DATABASE}
+        MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        MYSQL_USER: ${MYSQL_USER}
+        MYSQL_PASS: ${MYSQL_PASS}
+        TZ: "America/Sao_Paulo"
+    restart: always
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
+      timeout: 10s
+      interval: 5s
+      retries: 3
+    volumes:
+      - clinica_medica_volume_db:/var/lib/mysql
+    networks:
+      - clinica-medica-network
+networks:
+  clinica-medica-network:
+    name: clinica-medica-network
+    driver: bridge
+volumes:
+  clinica_medica_volume_db:
+    driver: local
+    name: "clinica_medica_volume_db"
