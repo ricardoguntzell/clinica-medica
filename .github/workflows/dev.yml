@@ -21,3 +21,4 @@ jobs:
                   REMOTE_HOST: ${{ secrets.AWS_REMOTE_HOST }}
                   REMOTE_USER: ${{ secrets.AWS_REMOTE_USER }}
                   TARGET: ${{ secrets.AWS_TARGET_DIR }}
+                  SCRIPT_BEFORE: ls
