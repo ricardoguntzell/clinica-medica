@@ -17,5 +17,6 @@ jobs:
               with:
                 host: ${{ secrets.AWS_REMOTE_HOST }}
                 username: ubuntu
-                password: ${{ secrets.AWS_SSH_KEY }}
+                passphrase: ${{ secrets.AWS_SSH_KEY }}
+                password: guntz-aws
                 script: ls
