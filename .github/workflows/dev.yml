@@ -30,12 +30,12 @@ jobs:
             - name: Push docker Hub
               run: docker push guntzbr/clinica-medica-api
 
-            - name: Copy files with SSH
+            - name: Deploy to Server
               uses: easingthemes/ssh-deploy@main
-              env:
-                SSH_PRIVATE_KEY: ${{secrets.AWS_SSH_KEY}}
-                ARGS: "-rltgoDzvO --delete"
-                SOURCE: "./docker-compose.yaml"
-                REMOTE_HOST: ${{secrets.AWS_REMOTE_HOST}}
-                REMOTE_USER: ${{secrets.AWS_REMOTE_USER}}
-                TARGET: ${{secrets.AWS_TARGET_DIR}}
+              with:
+                  SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
+                  ARGS: "-rlgoDzvc -i --delete"
+                  SOURCE: "docker-compose.yaml"
+                  REMOTE_HOST: ${{ secrets.AWS_REMOTE_HOST }}
+                  REMOTE_USER: ${{ secrets.AWS_REMOTE_USER }}
+                  TARGET: ${{ secrets.AWS_TARGET_DIR }}
