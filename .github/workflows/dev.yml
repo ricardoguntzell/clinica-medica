@@ -12,24 +12,6 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
-            - name: Setup Java
-              uses: actions/setup-java@v3
-              with:
-                distribution: 'temurin'
-                java-version: '17'
-
-            - name: Build Project
-              run: mvn clean package -DskipTests
-
-            - name: Login Docker Hub
-              run: docker login -u ${{secrets.DOCKER_USERNAME}} -p ${{secrets.DOCKER_PASSWORD}}
-            
-            - name: Build docker Hub
-              run: docker build . -t guntzbr/clinica-medica-api
-
-            - name: Push docker Hub
-              run: docker push guntzbr/clinica-medica-api
-
             - name: Deploy to Server
               uses: easingthemes/ssh-deploy@main
               with:
