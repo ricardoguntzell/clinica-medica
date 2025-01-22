@@ -12,11 +12,25 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
-            - name: executing remote ssh commands using password
-              uses: appleboy/ssh-action@v1.2.0
+            - name: Print a
+              run: echo "$AWS_SSH_KEY"
+
+            - name: Print b
+              run: echo "$AWS_REMOTE_HOST"
+
+            - name: Print c
+              run: echo "$AWS_REMOTE_USER"
+
+            - name: Print d
+              run: echo "$AWS_TARGET_DIR"
+
+            - name: Deploy to EC2
+              uses: easingthemes/ssh-deploy@main
               with:
-                host: ${{ secrets.AWS_REMOTE_HOST }}
-                username: ubuntu
-                passphrase: ${{ secrets.AWS_SSH_KEY }}
-                password: guntz-aws
-                script: ls
+                  SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
+                  ARGS: "-rlgoDzvc -i --delete"
+                  SOURCE: "./"
+                  REMOTE_HOST: ${{ secrets.AWS_REMOTE_HOST }}
+                  REMOTE_USER: ${{ secrets.AWS_REMOTE_USER }}
+                  TARGET: ${{ secrets.AWS_TARGET_DIR }}
+                  SCRIPT_BEFORE: ls
