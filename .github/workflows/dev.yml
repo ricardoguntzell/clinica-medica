@@ -21,4 +21,6 @@ jobs:
                   REMOTE_HOST: ${{ secrets.AWS_REMOTE_HOST }}
                   REMOTE_USER: ${{ secrets.AWS_REMOTE_USER }}
                   TARGET: ${{ secrets.AWS_TARGET_DIR }}
+                  SCRIPT_AFTER: export DB_URL=${{secrets.DB_URL}} DB_USERNAME=${{secrets.DB_USERNAME}} DB_PASSWORD=${{secrets.DB_PASSWORD}} APP_PROFILE=${{secrets.APP_PROFILE}} MYSQL_DATABASE=${{secrets.MYSQL_DATABASE}} MYSQL_ROOT_PASSWORD=${{secrets.MYSQL_ROOT_PASSWORD}} MYSQL_USER=${{secrets.MYSQL_USER}} MYSQL_PASS=${{secrets.MYSQL_PASS}} && docker-compose up -d
+
                   
