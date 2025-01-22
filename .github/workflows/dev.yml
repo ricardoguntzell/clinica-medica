@@ -13,10 +13,10 @@ jobs:
               uses: actions/checkout@v4
 
             - name: Print a
-              run: echo "$AWS_SSH_KEY"
+              run: echo "AWS_SSH_KEY $AWS_SSH_KEY"
 
             - name: Print b
-              run: echo "$AWS_REMOTE_HOST"
+              run: echo "$AWS_REMOTE_HOST AWS_REMOTE_HOST"
 
             - name: Print c
               run: echo "$AWS_REMOTE_USER"
