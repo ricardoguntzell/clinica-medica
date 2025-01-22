@@ -12,10 +12,7 @@ jobs:
             - name: Checkout Code
               uses: actions/checkout@v4
 
-            - name: Print a
-              run: echo "${{secrets.DOCKER_USERNAME}}"
-
-            - name: Deploy to EC2
+            - name: Deploy EC2
               uses: easingthemes/ssh-deploy@main
               with:
                   SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
