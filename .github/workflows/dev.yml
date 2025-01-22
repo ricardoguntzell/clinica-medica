@@ -17,7 +17,7 @@ jobs:
               with:
                   SSH_PRIVATE_KEY: ${{ secrets.AWS_SSH_KEY }}
                   ARGS: "-rlgoDzvc -i --delete"
-                  SOURCE: "./"
+                  SOURCE: "docker-compose.yaml"
                   REMOTE_HOST: ${{ secrets.AWS_REMOTE_HOST }}
                   REMOTE_USER: ${{ secrets.AWS_REMOTE_USER }}
                   TARGET: ${{ secrets.AWS_TARGET_DIR }}
